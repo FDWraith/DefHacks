@@ -1,10 +1,25 @@
-from flask import Flask, render_template, url_for, request, redirect, session, flash
+from flask import Flask, render_template, url_for, request, redirect, session, flash, g
 from functools import wraps
+import  md5, string, math, re, sqlite3
 
 app = Flask(__name__)
 
 # config
 app.config.from_object('config.DevelopmentConfig')
+app.logdata = "login.db"
+
+
+def hashpass(password):
+    m = md5.new()
+    m.update(password)
+    hashed = m.hexdigest()
+    return hashed
+
+
+def cleaninput(text):
+    validtext = (string.ascii_letters + string.digits + "!@#$%^*()")
+    text = filter(lambda x: x in validtext, text)
+    return text
 
 
 def login_required(f):
@@ -29,11 +44,38 @@ def welcome():
     return render_template("welcome.html")
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    error = None
+    if request.method == 'POST':
+        g.db = connect_db()
+        Username = request.form['username']
+        Pass = request.form['password']
+        Pass2 = request.form['password2']
+        c = g.db.execute("SELECT * FROM posts WHERE username ='%s'" % Username)
+        if Username != cleaninput(Username) or Pass != cleaninput(Pass):
+            error = "Invalid username or password"
+        elif Pass != Pass2:
+            error = "Please confirm that your passwords are the same"
+        elif c.fetchone() is not None:
+            error = "Username already chosen"
+        else:
+            g.db.execute('INSERT INTO posts VALUES (?,?)', (Username, hashpass(Pass)))
+            g.db.commit()
+            flash('Account Registered')
+            g.db.close()
+            return redirect(url_for('register'))
+        g.db.close()
+    return render_template("register.html", error=error)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+        if request.form['mode'] == "Register":
+            return redirect(url_for('register'))
+        elif request.form['username'] != 'admin' or request.form['password'] != 'admin':
             error = 'Invalid credentials. Please try again.'
         else:
             session['logged_in'] = True
@@ -48,6 +90,9 @@ def logout():
     session.pop('logged_in', None)
     return redirect(url_for('welcome'))
 
+
+def connect_db():
+    return sqlite3.connect(app.logdata)
 
 if __name__ == '__main__':
     app.run()
