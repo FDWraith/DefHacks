@@ -43,11 +43,11 @@ class Book(object):
         self.notes = open_info['notes']
 
     def fill_ny_times(self, times_info):
-        self.isbn = times_info['isbn10']
+        self.isbn = times_info['isbn']
         self.title = times_info['title']
         self.author = times_info['author']
         self.times_desc = times_info['description']
-        self.amazon_url = times_info['amazon_product_url']
+        self.amazon_url = times_info['url']
 
     def fill_google_books(self, google_info):
         if not self.title:
