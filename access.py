@@ -2,28 +2,14 @@
 import json, requests
 
 def accessOpenLibraryData(isbn):
-    #retunrs a dictionary of info on the book indicated by the isbn
+    #returns a dictionary of info on the book indicated by the isbn
     url = "https://openlibrary.org/api/books?bibkeys=ISBN:{num}&format=json&jscmd=data".format(num = isbn);
     r = requests.get(url);
     rawData = json.loads(r.text);
     if(rawData == { }):
         return { };
-    d = { };
-    d['isbn'] = isbn;
-    d['title'] = rawData["ISBN:{num}".format(num=isbn)]["title"];
-    d['author'] = rawData["ISBN:{num}".format(num=isbn)]["authors"][0]["name"];
-    d['publish_date'] = rawData["ISBN:{num}".format(num=isbn)]['publish_date'];
-    d['url'] = rawData["ISBN:{num}".format(num=isbn)]['url'];
-    d['page_count'] = rawData["ISBN:{num}".format(num=isbn)]['number_of_pages'];
-    d['cover_image'] = rawData["ISBN:{num}".format(num=isbn)]['cover']['large'];
-    genres = rawData['ISBN:{num}'.format(num=isbn)]['subjects'];
-    #print(genres);
-    for i in range(len(genres)):
-       genres[i] = genres[i]['name'].lower();
-    d['genres'] = genres;
-    d['notes'] = rawData["ISBN:{num}".format(num=isbn)]['notes'];
-
-    return d;
+    bookDict = rawData["ISBN:{num}".format(num=isbn)]
+    return bookDict
 
 def accessNewYorkTimesData(listname,offset):
     url = 'http://api.nytimes.com/svc/books/v2/lists/{name}'.format(name=listname);
