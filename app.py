@@ -64,7 +64,7 @@ def register():
             g.db.commit()
             flash('Account Registered')
             g.db.close()
-            return redirect(url_for('register'))
+            return redirect(url_for('login'))
         g.db.close()
     return render_template("register.html", error=error)
 
@@ -73,10 +73,16 @@ def register():
 def login():
     error = None
     if request.method == 'POST':
+        Username = request.form['username']
+        Pass = request.form['password']
+        g.db = connect_db()
+        c1 = g.db.execute("SELECT pass FROM posts WHERE username ='%s'" %Username)
+        c2 = g.db.execute("SELECT * FROM posts WHERE username ='%s'" %Username)
+        passpull = c1.fetchone()
         if request.form['mode'] == "Register":
             return redirect(url_for('register'))
-        elif request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            error = 'Invalid credentials. Please try again.'
+        elif passpull[0] != hashpass(Pass) or c2.fetchone()[0] != Username:
+            error = passpull[0] + " : " + hashpass(Pass)
         else:
             session['logged_in'] = True
             flash('You were logged in')
