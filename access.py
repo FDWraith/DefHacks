@@ -40,5 +40,14 @@ def accessNewYorkTimesData(listname,offset):
                     'url' : i['book_details'][0]['amazon_product_url']} );
     return d;
 
+def accessGoogleBooksData(volume_id):
+    url = 'https://www.googleapis.com/books/v1/volumes/' + volume_id
+    payload = {'key':'AIzaSyAyR0m9gfSIuddjfY6nskanTg08X_62ICM'}
+    r = requests.get(url,params=payload)
+    rawData = json.loads(r.text)
+    return rawData
+
+#print accessGoogleBooksData("zyTCAlFPjgYC")
+
 #print accessNewYorkTimesData('combined-print-and-e-book-fiction','0');
 
