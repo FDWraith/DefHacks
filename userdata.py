@@ -67,7 +67,7 @@ def getCurrentBook(username):
     if(data[username]['currentBook'] == { }):
         return { };
     retBook = book.Book()
-    retBook.fillFromDict(data[username]['currentB   ook'])
+    retBook.fillFromDict(data[username]['currentBook'])
     return retBook;
 
 

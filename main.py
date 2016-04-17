@@ -5,8 +5,8 @@ def pToLoL(p):
     while(not p.empty()):
         temp = list()
         store = p.get()
-        temp[0] = store[0]
-        temp[1] = store[1].getAsDict();
+        temp.append(store[0])
+        temp.append(store[1].getAsDict())
         L.append(temp);
     return L;
 
@@ -114,9 +114,11 @@ def addRandomBooks(p,username):
         
 counter = 0;            
 def display(username,p):
+
     #if(p.qsize() == 0):
     #    return ''
     currentBook = p.get()[1]
+    exit(1)
     userdata.changeCurrentBook(username,currentBook);
     end = "";
     end += "<table>\n";

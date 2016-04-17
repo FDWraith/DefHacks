@@ -42,6 +42,7 @@ def home():
     if(userdata.getCurrentBook(username) == {}):
         main.addRandomBooks(p,username);
         display = main.display(username,p)
+        exit(1)
     else:
         if(session['justlogin']):
             session['justlogin'] = False

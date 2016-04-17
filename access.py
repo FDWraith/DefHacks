@@ -68,7 +68,4 @@ def searchGoogleBooksByKeywords(keyword_string, offset):
     else:
         return rawData
 
-#print accessGoogleBooksData("zyTCAlFPjgYC")
-
-#print accessNewYorkTimesData('combined-print-and-e-book-fiction','0');
-
+print getNewYorkTimesList('young-adult', 0)
