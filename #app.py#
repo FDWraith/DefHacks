@@ -1,8 +1,8 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash, g
 from functools import wraps
-import md5, string, sqlite3, json, os, main, userdata, Queue
+import md5, string, sqlite3, json, os, main, userdata, Queue, book
 
-app = Flask(__name__)
+app = Flask(__name__)/
 
 # config
 app.config.from_object('config.DevelopmentConfig')
@@ -38,7 +38,7 @@ def login_required(f):
 @login_required
 def home():
     username = session['username']
-    p = main.LoLToP(session['queue'])
+    p = session['queue']
     if(userdata.getCurrentBook(username) == {}):
         display = main.display(username, p)
     else:
@@ -108,14 +108,14 @@ def login():
         elif passpull[0] != hashpass(Pass) or c2.fetchone()[0] != Username:
             error = passpull[0] + " : " + hashpass(Pass)
         else:
-            session['username'] = Username[0]
+            session['username'] = Username
             if userdata.getP(Username) == []:
                 p = Queue.PriorityQueue()
                 main.initialize(p, Username)
-                session["queue"] = main.pToLoL(p);
+                session["queue"] = p
             else:
                 p = main.LoLToP(userdata.getP(Username))
-                session["queue"] = main.pToLoL(p);
+                session["queue"] = p
             flash('You were logged in')
             session["justlogin"] = True
             return redirect(url_for('home'))
