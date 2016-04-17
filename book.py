@@ -1,4 +1,4 @@
-class Book(object):
+class Book:
     def __init__(self):
         #Common attributes
         self.title = ''
@@ -60,6 +60,8 @@ class Book(object):
         self.amazon_url = times_info['url']
 
     def fill_google_books(self, google_info):
+        if google_info == {}:
+            return
         self.google_id = google_info['id']
         if not self.title:
             self.title = google_info['volumeInfo']['title']

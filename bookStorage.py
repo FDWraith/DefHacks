@@ -11,4 +11,6 @@ def add(isbn,book):
 def get(isbn):
     return data[isbn]
 
+def getJson():
+    return data
 

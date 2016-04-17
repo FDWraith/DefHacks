@@ -1,4 +1,4 @@
-import Queue,access,json,requests,userdata,bookStorage,Book
+import Queue,access,json,requests,userdata,bookStorage,book,bookutils
 
 def pToLoL(p):
     L = [];
@@ -18,12 +18,12 @@ def initialize(p,username):
 def swipeLeft(username, currentBook):
     isbn = currentBook.isbn;
 
-    if isbn not in bookStorage.get():
+    if isbn not in bookStorage.getJson():
         bookStorage.add(isbn, currentBook);
         
     userdata.addDislikedBook(username,isbn);
     for genre in isbn.subjects:
-        temp = userdata.getTagList(username);
+        temp = userdata.getTagDict(username);
         if genre in temp:
             userdata.addTag(username,genre,temp[genre][0]+1);
         else:
@@ -32,49 +32,63 @@ def swipeLeft(username, currentBook):
 def swipeRight(username, currentBook):
     isbn = currentBook.isbn
 
-    if isbn not in bookStorage.get():
+    if isbn not in bookStorage.getJson():
         bookStorage.add(isbn,currentBook);
     
     userdata.addLikedBook(username,isbn);
     for genre in isbn.subjects:
-        temp = userdata.getTagList(username);
+        temp = userdata.getTagDict(username);
         if genre in temp:
             userdata.addTag(username,genre,temp[genre][0]-1);
         else:
             userdata.addTag(username,genre,-1);
  
-def saveBook(username, currentBook):
+def saveBook(username, currentBook, p):
     isbn = currentBook.isbn;
     
-    if isbn not in bookStorage.get():
+    if isbn not in bookStorage.getJson():
         bookStorage.add(isbn,currentBook);
 
     userdata.addSavedBook(username,isbn);
         
     for genre in isbn.subjects:
-        temp = userdata.getTagList(username);
+        temp = userdata.getTagDict(username);
         if genre in temp:
             userdata.addTag(username,genre,temp[genre][0]-3);
         else:
             userdata.addTag(username,genre,-3);
 
-    temp = userdata.getTagList(username);
+    temp = userdata.getTagDict(username);
+    """
     for genre in temp:
         if temp[genre] >= 5:
             searchResults = search.search(genre);#seach returns a list of books of the genre param.
             for i in range(5):
                 p.put( [ temp[genre]+3, searchResults[i] ] )
             userdata.addTag(username,genre,temp[genre][0]+3);
+            """
+
+def updateBookQueue(username, book_queue):
+    ranked_tags = userdata.getTagDict()
+    if book_queue.qsize() < 10:
+        #ASSUME TYPE OPEN
+        popTag = userdata.getPopularTag(username)
+        if popTag != None:
+            relatedBook = bookutils.getRelatedBook(popTag, 'open', username)
+            if relatedBook != None:
+                book_queue.put([1, relatedBook])
+                #Update tags after swiping
+
 
 def addRandomBooks(p,username):
     list = access.getNewYorkTimesList('young-adult', str(userdata.getNum(username)) + '');
     userdata.changeNum(username, 20)
     for i in list:
-        b = Book();
-        list.fill_ny_times(b,i);
+        b = book.Book();
+        b.fill_ny_times(i);
         isbn = i['isbn'];
-        list.fill_open_library(b,access.getOpenLibraryBook(str(isbn)+''));
-        p.put([0,b]);        
+        bookutils.fillFromAllSources(b, isbn)
+        p.put([0,b]);
 
         
 counter = 0;            

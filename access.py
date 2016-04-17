@@ -38,17 +38,20 @@ def getGoogleBookByISBN(book_isbn):
     payload = {'key':'AIzaSyAyR0m9gfSIuddjfY6nskanTg08X_62ICM'}
     r = requests.get(url,params=payload)
     rawData = json.loads(r.text)
+    if(rawData == { }):
+        return { };
     return rawData
 
 def searchGoogleBooksByCategory(book_cat, offset):
     url = 'https://www.googleapis.com/books/v1/volumes?q=subject:' + book_cat
     url += '&printType=books'
     url += '&startIndex=' + offset
+    url += 'maxResults=20'
     payload = {'key':'AIzaSyAyR0m9gfSIuddjfY6nskanTg08X_62ICM'}
     r = requests.get(url,params=payload)
     rawData = json.loads(r.text)
     if rawData['totalItems'] == 0:
-        return []
+        return {}
     else:
         return rawData
 
@@ -56,11 +59,12 @@ def searchGoogleBooksByKeywords(keyword_string, offset):
     url = 'https://www.googleapis.com/books/v1/volumes?q=' + keyword_string
     url += '&printType=books'
     url += '&startIndex=' + offset
+    url += 'maxResults=20'
     payload = {'key':'AIzaSyAyR0m9gfSIuddjfY6nskanTg08X_62ICM'}
     r = requests.get(url,params=payload)
     rawData = json.loads(r.text)
     if rawData['totalItems'] == 0:
-        return []
+        return {}
     else:
         return rawData
 

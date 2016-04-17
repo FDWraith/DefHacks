@@ -1,14 +1,8 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash, g
 from functools import wraps
-import flask.ext.login as flask_login
-import md5, string, sqlite3, json, os, main, userdata, Queue, Book
+import md5, string, sqlite3, json, os, main, userdata, Queue, book
 
 app = Flask(__name__)
-
-# login_manager
-login_manager = flask_login.LoginManager()
-
-login_manager.init_app(app)
 
 # config
 app.config.from_object('config.DevelopmentConfig')
@@ -58,7 +52,7 @@ def home():
             elif request.form['mode'] == 'left':
                 main.swipeLeft(username, currentBook)
             else:
-                main.saveBook(username, currentBook)
+                main.saveBook(username, currentBook, p)
             display = main.display(username, p)
     return render_template("index.html", display=display)
 

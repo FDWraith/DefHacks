@@ -44,8 +44,21 @@ def addTag(username, key, value):
     data[username]['tagRanks'][key] = value
 
 
-def getTagList(username):
+def getTagDict(username):
     return data[username]['tagRanks']
+
+#returns a tag over the threshold, else returns None
+def getPopularTag(username):
+    maxPop = 0
+    popTag = None
+    #NOT BEING USED
+    popTagType = ''
+    rankedTags = data['username']['tagRanks']
+    for key in rankedTags:
+        if rankedTags[key][0] > 3 and rankedTags[key][0] > maxPop:
+            maxPop = rankedTags[key]
+            popTag = key
+    return popTag
 
 
 def getCurrentBook(username):
