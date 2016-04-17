@@ -13,12 +13,12 @@ def initialize():
 def swipeLeft(username):
     isbn = currentBook.isbn;
 
-    if isbn not in bookStorage.getList():
+    if isbn not in bookStorage.get():
         bookStorage.add(isbn,currentBook);
         
     userdata.addDislikedBook(username,isbn);
-    for genre in b.subjects:
-        temp = getTag(username);
+    for genre in isbn.subjects:
+        temp = userdata.getTagList(username);
         if genre in temp:
             userdata.addTag(username,genre,temp[genre][0]+1);
         else:
@@ -27,12 +27,12 @@ def swipeLeft(username):
 def swipeRight(username):
     isbn = currentBook.isbn
 
-    if isbn not in bookStorage.getList():
+    if isbn not in bookStorage.get():
         bookStorage.add(isbn,currentBook);
     
     userdata.addLikedBook(username,isbn);
-    for genre in b.subjects:
-        temp = getTag(username);
+    for genre in isbn.subjects:
+        temp = userdata.getTagList(username);
         if genre in temp:
             userdata.addTag(username,genre,temp[genre][0]-1);
         else:
@@ -41,20 +41,19 @@ def swipeRight(username):
 def saveBook(username):
     isbn = currentBook.isbn;
     
-    if isbn not in bookStorage.getList():
+    if isbn not in bookStorage.get():
         bookStorage.add(isbn,currentBook);
 
     userdata.addSavedBook(username,isbn);
         
-    for genre in b.subjects:
-        temp = getTag(username);
+    for genre in isbn.subjects:
+        temp = userdata.getTagList(username);
         if genre in temp:
             userdata.addTag(username,genre,temp[genre][0]-3);
         else:
             userdata.addTag(username,genre,-3);
 
-def updatePriorityQueue():
-    temp = getTag(username);
+    temp = userdata.getTagList(username);
     for genre in temp:
         if temp[genre] >= 5:
             searchResults = search.search(genre);#seach returns a list of books of the genre param.
@@ -63,13 +62,13 @@ def updatePriorityQueue():
             userdata.addTag(username,genre,temp[genre][0]+3);
 
 def addRandomBooks():
-    list = access.accessNewYorkTimesData('young-adult',num+'');
+    list = access.getNewYorkTimesList('young-adult',num+'');
     num+=20;
     for i in list:
         b = Book();
-        b.fill_ny_times(b,i);
+        list.fill_ny_times(b,i);
         isbn = i['isbn'];
-        b.fill_open_library(b,access.accessOpenLibraryData(isbn+''));
+        list.fill_open_library(b,access.getOpenLibraryBook(isbn+''));
         p.put([0,b]);        
 
         
