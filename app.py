@@ -55,7 +55,7 @@ def home():
             else:
                 main.saveBook(username, currentBook, p)
             display = main.display(username, p)
-    return render_template("index.html", display=display)
+    return render_template("index.html", display=display[1:-1])
 
 
 @app.route('/welcome')
