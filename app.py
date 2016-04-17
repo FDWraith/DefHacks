@@ -114,7 +114,7 @@ def login():
                 main.initialize(p, Username)
                 session["queue"] = p
             else:
-                p = main.LoLToP(userdata.getP())
+                p = main.LoLToP(userdata.getP(Username))
                 session["queue"] = p
             flash('You were logged in')
             session["justlogin"] = True
