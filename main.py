@@ -104,9 +104,11 @@ def addRandomBooks(p,username):
 
         
 counter = 0;            
-def display(username,p):    
-    currentBook = p.get()
-    userdata.changeCurrentBook(username,currentBook;
+def display(username,p):
+    if(p.qsize() == 0):
+        return ''
+    currentBook = p.get()[1]
+    userdata.changeCurrentBook(username,currentBook);
     end = "";
     end += "<table>\n";
     if currentBook.title:

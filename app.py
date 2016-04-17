@@ -40,7 +40,8 @@ def home():
     username = session['username']
     p = main.LoLToP(session['queue'])
     if(userdata.getCurrentBook(username) == {}):
-        display = main.display(username, p)
+        main.addRandomBooks(p,username);
+        display = main.display(username,p)
     else:
         if(session['justlogin']):
             session['justlogin'] = False
