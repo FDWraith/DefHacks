@@ -9,7 +9,7 @@ class Book(object):
         self.isbn = ''
         #Open Library attributes
         self.open_url = ''
-        self.subjects = ''
+        self.subjects = []
         self.notes = ''
         #NY Times attributes
         self.times_desc = ''
