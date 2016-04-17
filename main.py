@@ -157,6 +157,7 @@ def display(username,p):
     #    addRandomBooks(p,username)
     #if counter >= 5:
     #updatePriorityQueue()
+    end += "</table>\n"
     
     return end;
         
