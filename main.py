@@ -1,6 +1,6 @@
 import Queue,access,json,requests,userdata
 
-p = PriorityQueue();
+p = Queue.PriorityQueue();
 num = 0;
 currentBook = {};
 
@@ -13,7 +13,7 @@ def initialize():
 def swipeLeft(username):
     isbn = currentBook.isbn;
 
-    if !(isbn in bookStorage.getList()):
+    if isbn not in bookStorage.getList():
         bookStorage.add(isbn,currentBook);
         
     userdata.addDislikedBook(username,isbn);
@@ -27,7 +27,7 @@ def swipeLeft(username):
 def swipeRight(username):
     isbn = currentBook.isbn
 
-    if !(isbn in bookStorage.getList()):
+    if isbn not in bookStorage.getList():
         bookStorage.add(isbn,currentBook);
     
     userdata.addLikedBook(username,isbn);
@@ -41,7 +41,7 @@ def swipeRight(username):
 def saveBook(username):
     isbn = currentBook.isbn;
     
-    if !(isbn in bookStorage.getList()):
+    if isbn not in bookStorage.getList():
         bookStorage.add(isbn,currentBook);
 
     userdata.addSavedBook(username,isbn);
@@ -81,7 +81,7 @@ def display():
     if currentBook.title:
         end += "<tr><td><h1>Title: "+currentBook.title+"</h1></td></tr>\n";
     if currentBook.author:
-        end += "<tr><td><h3>Author: "+currentBook.autho+"</h3></td><tr>\n";
+        end += "<tr><td><h3>Author: "+currentBook.author+"</h3></td><tr>\n";
     if currentBook.cover_image:
         end += "<img src='"+currentBook.cover_image+"'>\n";
     end += "<tr><td><h4>Basic Information:</h4></td></tr>\n";
@@ -108,7 +108,7 @@ def display():
         end += "<li>Categories: "+genres+"</li>\n";
     end += "</ul></td></tr>\n";
 
-    //Algos
+    #Algos
     if p.qsize() < 10:
         addRandomBooks()
     #if counter >= 5:
