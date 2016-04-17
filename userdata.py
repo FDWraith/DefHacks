@@ -7,6 +7,7 @@ import json, time
 with open('userdata.json') as f:
     data = json.load(f)
 
+
 def addSavedBook(username, isbn):
     entry = [isbn, time.strftime("%x")]
     data[username]['savedBooks'].append(entry)
@@ -42,7 +43,8 @@ def getLikedBookList(username):
 
 def addTag(username, key, value):
     data[username]['tagRanks'][key] = value
-
+    with open('userdata.json', 'w') as f:
+        json.dump(data, f)
 
 def getTagDict(username):
     return data[username]['tagRanks']
@@ -67,7 +69,8 @@ def getCurrentBook(username):
 
 def changeCurrentBook(username, book):
     data[username]['currentBook'] = book
-
+    with open('userdata.json', 'w') as f:
+        json.dump(data, f)
 
 def getNum(username):
     return data[username]['num']
@@ -75,6 +78,8 @@ def getNum(username):
 
 def changeNum(username, offset):
     data[username]['num'] = data[username]['num'] + offset
+    with open('userdata.json', 'w') as f:
+        json.dump(data, f)
 
 
 def getP(username):
@@ -83,3 +88,5 @@ def getP(username):
 
 def setP(username, newP):
     data[username]["P"] = newP
+    with open('userdata.json', 'w') as f:
+        json.dump(data, f)
