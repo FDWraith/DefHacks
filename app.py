@@ -1,11 +1,18 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash, g
 from functools import wraps
-import  md5, string, math, re, sqlite3, json
+import flask.ext.login as flask_login
+import  md5, string, math, re, sqlite3, json,os
 
 app = Flask(__name__)
 
+#login_manager
+login_manager = flask_login.LoginManager()
+
+login_manager.init_app(app)
+
 # config
 app.config.from_object('config.DevelopmentConfig')
+app.secret_key = os.urandom(24)
 app.logdata = "login.db"
 
 
@@ -25,7 +32,7 @@ def cleaninput(text):
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if 'logged_in' in session:
+        if 'username' in session:
             return f(*args, **kwargs)
         else:
             flash('You need to login first.')
@@ -90,9 +97,9 @@ def login():
         elif passpull[0] != hashpass(Pass) or c2.fetchone()[0] != Username:
             error = passpull[0] + " : " + hashpass(Pass)
         else:
-            session[Username] = True
+            session['username'] = Username
             flash('You were logged in')
-            return redirect('home', username=Username)
+            return redirect(url_for('home'))
     return render_template('login.html', error=error)
 
 
