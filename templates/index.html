@@ -5,4 +5,10 @@
 <br>
 <p>Click <a href="/logout">here</a> to logout.</p>
 
+<!-- errors -->
+{% if display %}
+<p class="page">{{ display }}</p>
+{% endif %}
+
+
 {% endblock %}

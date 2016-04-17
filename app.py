@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash, g
 from functools import wraps
 import flask.ext.login as flask_login
-import md5, string, sqlite3, json, os, main, userdata, Queue
+import md5, string, sqlite3, json, os, main, userdata, Queue, Book
 
 app = Flask(__name__)
 
