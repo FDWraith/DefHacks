@@ -1,7 +1,7 @@
 import json
 
 with open('bookStorage.json') as f:
-    data = json.loads(f)
+    data = json.load(f)
 
 def add(isbn,book):
     data[isbn] = book;

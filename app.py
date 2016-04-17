@@ -1,11 +1,11 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash, g
 from functools import wraps
 import flask.ext.login as flask_login
-import  md5, string, math, re, sqlite3, json,os
+import md5, string, sqlite3, json, os, main
 
 app = Flask(__name__)
 
-#login_manager
+# login_manager
 login_manager = flask_login.LoginManager()
 
 login_manager.init_app(app)
@@ -43,7 +43,16 @@ def login_required(f):
 @app.route('/')
 @login_required
 def home():
-    return render_template("index.html")
+    if main.getCurrentBook() == {}:
+        main.initialize()
+        return render_template("index.html")
+    else:
+        if(request.form('mode') == 'right'):
+            main.swipeRight(session['username'], main.getCurrentBook)
+        elif(request.form('mode') == 'left'):
+            main.swipeLeft(session['username'], main.getCurrentBook)
+        display = main.display()
+        return render_template("index.html", display=display)
 
 
 @app.route('/welcome')
