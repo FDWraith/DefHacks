@@ -150,7 +150,7 @@ def display(username,p):
         end += "<li>Categories: "+genres+"</li>\n";
     end += "</ul></td></tr>\n";
     end += "<tr><td><input class='btn btn-default' name='mode' type='submit' value ='left'</td>"
-    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='left'</td>"
+    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='submit'</td>"
     end += "<td><input class='btn btn-default' name='mode' type='submit' value ='right'</td></tr>\n"
     #Algos
     #if p.qsize() < 10:
