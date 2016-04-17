@@ -84,16 +84,17 @@ def login():
         elif passpull[0] != hashpass(Pass) or c2.fetchone()[0] != Username:
             error = passpull[0] + " : " + hashpass(Pass)
         else:
-            session['logged_in'] = True
+            session[Username] = True
             flash('You were logged in')
-            return redirect(url_for('home'))
+            return redirect('home', username=Username)
     return render_template('login.html', error=error)
 
 
 @app.route('/logout')
 @login_required
 def logout():
-    session.pop('logged_in', None)
+    Username = request.form['username']
+    session.pop(Username, None)
     return redirect(url_for('welcome'))
 
 
