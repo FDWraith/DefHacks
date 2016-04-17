@@ -108,7 +108,7 @@ def login():
         elif passpull[0] != hashpass(Pass) or c2.fetchone()[0] != Username:
             error = passpull[0] + " : " + hashpass(Pass)
         else:
-            session['username'] = Username[0]
+            session['username'] = Username
             if userdata.getP(Username) == []:
                 p = Queue.PriorityQueue()
                 main.initialize(p, Username)
