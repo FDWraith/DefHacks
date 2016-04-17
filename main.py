@@ -12,6 +12,15 @@ def LoLToP(L):
         p.put(i);
     return p;
 
+def toBook(book_isbn):
+    b = book.Book();
+    bookutils.fillFromAllSources(b,book_isbn)
+    return b
+
+def toISBN(b):
+    return b['isbn']
+
+
 def initialize(p,username):
     addRandomBooks(p,username);
         

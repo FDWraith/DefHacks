@@ -64,11 +64,11 @@ def getPopularTag(username):
 
 
 def getCurrentBook(username):
-    return data[username]['currentBook']
+    return main.toBook(data[username]['currentBook'])
 
 
 def changeCurrentBook(username, book):
-    data[username]['currentBook'] = book
+    data[username]['currentBook'] = main.toISBN(book);
     with open('userdata.json', 'w') as f:
         json.dump(data, f)
 
