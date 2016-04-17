@@ -6,22 +6,25 @@
     <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
   </head>
   <body>
+    <center>
+        <h1><font face="Helvetica">BINDER 451</font> </h1>
+        <div class="container">
 
-    <div class="container">
+          <!-- child template -->
+            <center>
+          {% block content %}{% endblock %}
 
-      <!-- child template -->
-      {% block content %}{% endblock %}
+          <!-- errors -->
+          {% if error %}
+            <p class="error"><strong>Error:</strong> {{ error }}</p>
+          {% endif %}
 
-      <!-- errors -->
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}</p>
-      {% endif %}
-
-      <!-- messages -->
-      {% for message in get_flashed_messages() %}
-        {{ message }}
-      {% endfor %}
-    </div>
-
+          <!-- messages -->
+          {% for message in get_flashed_messages() %}
+            {{ message }}
+          {% endfor %}
+            </center>
+        </div>
+    </center>
   </body>
 </html>

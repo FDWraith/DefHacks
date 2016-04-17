@@ -30,7 +30,7 @@ def getRelatedBook(search_term, type, username):
 #takes username
 def getBestNewYorkTimesBook(username):
     times_offset = userdata.getNum(username)
-    book_list = access.getNewYorkTimesList(times_offset)
+    book_list = access.getNewYorkTimesList('young-adult', times_offset)
     viewed_isbns = userdata.getLikedBookList(username)
     viewed_isbns.extend(userdata.getDislikedBookList(username))
     for book_dict in book_list:

@@ -39,7 +39,7 @@ def swipeLeft(username, currentBook):
     for genre in currentBook.subjects:
         tempTagDict = userdata.getTagDict(username);
         if genre in tempTagDict:
-            userdata.addTag(username,genre,tempTagDict[genre][0]+1);
+            userdata.addTag(username,genre,tempTagDict[genre]+1);
         else:
             userdata.addTag(username,genre,1);
 
@@ -51,7 +51,7 @@ def swipeRight(username, currentBook):
     for genre in currentBook.subjects:
         tempTagDict = userdata.getTagDict(username);
         if genre in tempTagDict:
-            userdata.addTag(username,genre,tempTagDict[genre][0]-1);
+            userdata.addTag(username,genre,tempTagDict[genre]-1);
         else:
             userdata.addTag(username,genre,-1);
  
@@ -63,7 +63,7 @@ def saveBook(username, currentBook, p):
     for genre in isbn.subjects:
         temp = userdata.getTagDict(username);
         if genre in temp:
-            userdata.addTag(username,genre,temp[genre][0]-1);
+            userdata.addTag(username,genre,temp[genre]-1);
         else:
             userdata.addTag(username,genre,-1);
 
@@ -133,7 +133,7 @@ def display(username,bookToDisplay):
     end += "</ul></td></tr>\n";
     end += '<form action="" method="post">'
     end += "<tr><td><input class='btn btn-default' name='mode' type='submit' value ='left'></td>"
-    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='submit'></td>"
+    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='save'></td>"
     end += "<td><input class='btn btn-default' name='mode' type='submit' value ='right'></td></tr>\n"
     end += '</form>'
     #Algos

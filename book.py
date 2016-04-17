@@ -29,7 +29,7 @@ class Book:
             return
         self.open_url = open_info['url']
         if not self.title:
-            self.title = open_info['title']
+            self.title = str(open_info['title'])
         if not self.isbn:
             self.title = open_info['isbn']
         if not self.publish_date and 'publish_date' in open_info:
@@ -55,7 +55,7 @@ class Book:
 
 
     def fill_ny_times(self, times_info):
-        self.isbn = times_info['isbn']
+        self.isbn = str(times_info['isbn'])
         self.title = times_info['title']
         self.author = times_info['author']
         self.times_desc = times_info['description']
@@ -67,7 +67,7 @@ class Book:
         if 'id' in google_info:
             self.google_id = google_info['id']
         if not self.title:
-            self.title = google_info['volumeInfo']['title']
+            self.title = str(google_info['volumeInfo']['title'])
         if not self.author and 'authors' in google_info['volumeInfo']:
             joint_author = ''
             for a in google_info['volumeInfo']['authors']:
@@ -80,7 +80,7 @@ class Book:
                 if identifier['type'] == 'ISBN_10':
                     self.isbn = identifier['identifier']
         if not self.page_count and 'pageCount' in google_info:
-            self.title = google_info['pageCount']
+            self.page_count = google_info['pageCount']
         if 'averageRating' in google_info:
             self.google_rating = google_info['averageRating']
         if 'language' in google_info:
@@ -126,7 +126,7 @@ class Book:
         self.publish_date = bookDict['publish_data']
         self.page_count = bookDict['page_count']
         self.cover_image = bookDict['cover_image']
-        self.isbn = bookDict['isbn']
+        self.isbn = str(bookDict['isbn'])
         self.open_url = bookDict['open_url']
         self.subjects = bookDict['subjects']
         self.notes = bookDict['notes']
