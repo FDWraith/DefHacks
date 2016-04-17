@@ -143,8 +143,8 @@ def display(username,p):
     end += "<td><input class='btn btn-default' name='mode' type='submit' value ='left'</td>"
     end += "<td><input class='btn btn-default' name='mode' type='submit' value ='right'</td></tr>\n"
     #Algos
-    if p.qsize() < 10:
-        addRandomBooks(p,username)
+    #if p.qsize() < 10:
+    #    addRandomBooks(p,username)
     #if counter >= 5:
     #updatePriorityQueue()
     
