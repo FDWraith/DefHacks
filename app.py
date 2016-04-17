@@ -126,8 +126,7 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    Username = request.form['username']
-    session.pop(Username, None)
+    session.pop('username', None)
     return redirect(url_for('welcome'))
 
 
