@@ -55,7 +55,7 @@ def home():
             else:
                 main.saveBook(username, currentBook, p)
             display = main.display(username, p)
-    return render_template("index.html", display=display[1:-1])
+    return render_template("index.html", display=display)
 
 
 @app.route('/welcome')
@@ -83,7 +83,7 @@ def register():
             g.db.commit()
             flash('Account Registered')
             g.db.close()
-            a_dict = {Username: {"savedBooks": [], "likedBooks": [], "dislikedBooks": [], "tagRanks": {}, "currentBook": {}, 'num':0, "P":[]}}
+            a_dict = {str(Username): {"savedBooks": [], "likedBooks": [], "dislikedBooks": [], "tagRanks": {}, "currentBook": {}, 'num':0, "P":[]}}
             with open('userdata.json') as f:
                 data = json.load(f)
             data.update(a_dict)
@@ -98,8 +98,8 @@ def register():
 def login():
     error = None
     if request.method == 'POST':
-        Username = request.form['username']
-        Pass = str(request.form['password'])
+        Username = str(request.form['username'])
+        Pass = request.form['password']
         g.db = connect_db()
         c1 = g.db.execute("SELECT pass FROM posts WHERE username ='%s'" %Username)
         c2 = g.db.execute("SELECT * FROM posts WHERE username ='%s'" %Username)
