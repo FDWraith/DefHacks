@@ -21,9 +21,6 @@ class Book(object):
         self.google_cats = []
         self.google_rating = -1
         self.language = ''
-        #User attributes
-        self.user_saved = False
-        self.save_date = -1
 
     def fill_open_library(self, open_info):
         if open_info == {}:
