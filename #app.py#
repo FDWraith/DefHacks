@@ -29,7 +29,6 @@ def login_required(f):
         if 'username' in session:
             return f(*args, **kwargs)
         else:
-            
             flash('You need to login first.')
             return redirect(url_for('login'))
     return wrap
@@ -55,7 +54,9 @@ def home():
                 main.swipeLeft(username, currentBook)
             else:
                 main.saveBook(username, currentBook, p)
-            display = main.display(username, p)
+            display = main.display(username, p)65
+
+                   00                nbbbbbbb0                                                                                                                                                                                                                                                                                    
     return render_template("index.html", display=display)
 
 
