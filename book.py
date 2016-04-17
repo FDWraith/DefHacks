@@ -1,3 +1,5 @@
+import json
+
 class Book:
     def __init__(self):
         #Common attributes
@@ -97,5 +99,44 @@ class Book:
             elif 'medium' in google_info['imageLinks']:
                 self.cover_image = google_info['imageLinks']['medium']
 
-    def set_saved(self, value):
-        user_saved = value
+    def getAsJSON(self):
+        dataDict = {}
+        dataDict['title'] = self.title
+        dataDict['author'] = self.author
+        dataDict['publish_data'] = self.publish_date
+        dataDict['page_count'] = self.page_count
+        dataDict['cover_image'] = self.cover_image
+        dataDict['isbn'] = self.isbn
+        dataDict['open_url'] = self.open_url
+        dataDict['subjects'] = self.subjects
+        dataDict['notes'] = self.notes
+        dataDict['times_desc'] = self.times_desc
+        dataDict['amazon_url'] = self.amazon_url
+        dataDict['google_id'] = self.google_id
+        dataDict['google_desc'] = self.google_desc
+        dataDict['main_category'] = self.main_category
+        dataDict['google_cats'] = self.google_cats
+        dataDict['google_rating'] = self.google_rating
+        dataDict['language'] = self.language
+        return json.dumps(dataDict)
+
+    def fillFromJSON(self, jsonObj):
+        jsonDict = json.load(jsonObj)
+        self.title = jsonDict['title']
+        self.author = jsonDict['author']
+        self.publish_date = jsonDict['publish_data']
+        self.page_count = jsonDict['page_count']
+        self.cover_image = jsonDict['cover_image']
+        self.isbn = jsonDict['isbn']
+        self.open_url = jsonDict['open_url']
+        self.subjects = jsonDict['subjects']
+        self.notes = jsonDict['notes']
+        self.times_desc = jsonDict['times_desc']
+        self.amazon_url = jsonDict['amazon_url']
+        self.google_id = jsonDict['google_id']
+        self.google_desc = jsonDict['google_desc']
+        self.main_category =jsonDict['main_category']
+        self.google_cats =  jsonDict['google_cats']
+        self.google_rating = jsonDict['google_rating']
+        self.language = jsonDict['language']
+        
