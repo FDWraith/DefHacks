@@ -30,6 +30,7 @@ def toISBN(b):
 
 def initialize(p,username):
     addRandomBooks(p,username);
+    userdata.setP(username, pToLoL(p))
         
 def swipeLeft(username, currentBook):
     isbn = currentBook.isbn;

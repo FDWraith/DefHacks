@@ -4,8 +4,6 @@ import json, time, main, book
 #[[isbn, date], [isbn2, date2], ...]
 #So an array of subarrays, where each subarray contains an isbn identifier, and the date it was added to this list
 
-
-
 def addSavedBook(username, isbn):
     with open('userdata.json') as f:
         data = json.load(f)

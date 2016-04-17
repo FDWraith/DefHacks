@@ -39,7 +39,7 @@ def login_required(f):
 def home():
     username = session['username']
     p = main.LoLToP(session['queue'])
-    if(userdata.getCurrentBook(username) == {}):
+    if(userdata.getP(username) == []):
         main.addRandomBooks(p,username);
         display = main.display(username,p)
     else:
