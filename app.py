@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash, g
 from functools import wraps
-import  md5, string, math, re, sqlite3
+import  md5, string, math, re, sqlite3, json
 
 app = Flask(__name__)
 
@@ -64,6 +64,12 @@ def register():
             g.db.commit()
             flash('Account Registered')
             g.db.close()
+            a_dict = {Username: {"savedBook": [], "likedBooks": [], "dislikedBooks": [], "tagRanks": {}}}
+            with open('userdata.json') as f:
+                data = json.load(f)
+            data.update(a_dict)
+            with open('userdata.json', 'w') as f:
+                json.dump(data, f)
             return redirect(url_for('login'))
         g.db.close()
     return render_template("register.html", error=error)
