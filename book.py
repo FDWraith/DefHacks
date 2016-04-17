@@ -62,7 +62,8 @@ class Book:
     def fill_google_books(self, google_info):
         if google_info == {}:
             return
-        self.google_id = google_info['id']
+        if 'id' in google_info:
+            self.google_id = google_info['id']
         if not self.title:
             self.title = google_info['volumeInfo']['title']
         if not self.author and 'authors' in google_info['volumeInfo']:

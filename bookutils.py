@@ -26,6 +26,10 @@ def getRelatedBook(search_term, type, username):
             return ret_book
     return None
 
+#gets best unseen book from new york times list
+#takes username
+#returns
+
 #Fills book with data pulled from all sources
 def fillFromAllSources(mod_book, isbn):
     mod_book.fill_open_library(access.getOpenLibraryBook(isbn))
