@@ -29,6 +29,7 @@ def login_required(f):
         if 'username' in session:
             return f(*args, **kwargs)
         else:
+            
             flash('You need to login first.')
             return redirect(url_for('login'))
     return wrap
