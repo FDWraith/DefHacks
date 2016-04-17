@@ -2,14 +2,23 @@ import Queue,access,json,requests,userdata,bookStorage,book,bookutils
 
 def pToLoL(p):
     L = [];
-    while(p.qsize() != 0):
-        L.append(p.get());
+    while(not p.empty()):
+        temp = list()
+        store = p.get()
+        temp[0] = store[0]
+        temp[1] = store[1].getAsDict();
+        L.append(temp);
     return L;
 
 def LoLToP(L):
     p = Queue.PriorityQueue();
     for i in L:
-        p.put(i);
+        temp = tuple();
+        temp[0] = i[0];
+        bk = book.Book()
+        bk.fillFromDict(i[1]);
+        temp[1] = bk;
+        p.put(temp);
     return p;
 
 def toBook(book_isbn):
@@ -81,7 +90,7 @@ def updateBookQueue(username, book_queue):
         if popTag != None:
             relatedBook = bookutils.getRelatedBook(popTag, 'open', username)
             if relatedBook != None:
-                book_queue.put([1, relatedBook])
+                book_queue.put((1, relatedBook))
                 #Update tags after swiping
             else:
                 #Here is where I'll try to get a new times book until the list runs out
@@ -89,7 +98,7 @@ def updateBookQueue(username, book_queue):
                 nextTimesBook = None
                 while nextTimesBook == None:
                     nextTimesBook = bookutils.getBestNewYorkTimesBook(username)
-                book_queue.put([0, nextTimesBook])
+                book_queue.put((0, nextTimesBook))
 
 
 def addRandomBooks(p,username):
@@ -100,13 +109,13 @@ def addRandomBooks(p,username):
         b.fill_ny_times(i);
         isbn = i['isbn'];
         bookutils.fillFromAllSources(b, isbn)
-        p.put([0,b]);
+        p.put((0,b));
 
         
 counter = 0;            
 def display(username,p):
-    if(p.qsize() == 0):
-        return ''
+    #if(p.qsize() == 0):
+    #    return ''
     currentBook = p.get()[1]
     userdata.changeCurrentBook(username,currentBook);
     end = "";
