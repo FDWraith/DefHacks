@@ -105,15 +105,14 @@ def addRandomBooks(p,username):
         
 counter = 0;            
 def display(username,p):    
-    userdata.changeCurrentBook(username,p.get());
-    currentBook = userdata.getCurrentBook(username);
+    currentBook = p.get()
+    userdata.changeCurrentBook(username,currentBook;
     end = "";
     end += "<table>\n";
     if currentBook.title:
         end += "<tr><td><h1>Title: "+currentBook.title+"</h1></td></tr>\n";
     if currentBook.author:
         end += "<tr><td><h3>Author: "+currentBook.author+"</h3></td><tr>\n";
-    end += "<tr><td><input class='btn btn-default' name='mode' type='submit' value ='left'</td>\n"
     if currentBook.cover_image:
         end += "<tr><td><img src='"+currentBook.cover_image+"'></td></tr>\n"    
     end += "<tr><td><h4>Basic Information:</h4></td></tr>\n";
@@ -129,11 +128,11 @@ def display(username,p):
     if currentBook.language:
         end += "<li>Language: "+currentBook.language+"</li>\n";
     genres = '';
-    if currentBook.subjects:
+    if currentBook.subjects != []:
         for i in currentBook.subjects:
             genres += i +",";
-    if currentBook.google_cats:
-        for i in currentBook.subects:
+    if currentBook.google_cats != [] :
+        for i in currentBook.subjects:
             genres += i +",";
     genres= genres[:-1];
     if genres != '':
