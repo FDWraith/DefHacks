@@ -17,29 +17,25 @@ def initialize(p,username):
         
 def swipeLeft(username, currentBook):
     isbn = currentBook.isbn;
-
     if isbn not in bookStorage.getJson():
         bookStorage.add(isbn, currentBook);
-        
     userdata.addDislikedBook(username,isbn);
-    for genre in isbn.subjects:
-        temp = userdata.getTagDict(username);
-        if genre in temp:
-            userdata.addTag(username,genre,temp[genre][0]+1);
+    for genre in currentBook.subjects:
+        tempTagDict = userdata.getTagDict(username);
+        if genre in tempTagDict:
+            userdata.addTag(username,genre,tempTagDict[genre][0]+1);
         else:
             userdata.addTag(username,genre,1);
 
 def swipeRight(username, currentBook):
-    isbn = currentBook.isbn
-
+    isbn = currentBook.isbn;
     if isbn not in bookStorage.getJson():
-        bookStorage.add(isbn,currentBook);
-    
+        bookStorage.add(isbn, currentBook);
     userdata.addLikedBook(username,isbn);
-    for genre in isbn.subjects:
-        temp = userdata.getTagDict(username);
-        if genre in temp:
-            userdata.addTag(username,genre,temp[genre][0]-1);
+    for genre in currentBook.subjects:
+        tempTagDict = userdata.getTagDict(username);
+        if genre in tempTagDict:
+            userdata.addTag(username,genre,tempTagDict[genre][0]-1);
         else:
             userdata.addTag(username,genre,-1);
  
@@ -78,6 +74,13 @@ def updateBookQueue(username, book_queue):
             if relatedBook != None:
                 book_queue.put([1, relatedBook])
                 #Update tags after swiping
+            else:
+                #Here is where I'll try to get a new times book until the list runs out
+                #Techically this will be an infinite loop, but whatever, we wont reach it in demo
+                nextTimesBook = None
+                while nextTimesBook == None:
+                    nextTimesBook = bookutils.getBestNewYorkTimesBook(username)
+                book_queue.put([0, nextTimesBook])
 
 
 def addRandomBooks(p,username):

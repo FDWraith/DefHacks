@@ -26,9 +26,21 @@ def getRelatedBook(search_term, type, username):
             return ret_book
     return None
 
-#gets best unseen book from new york times list
+#gets best unseen book from new york times list, or None if none high enough found
 #takes username
-#returns
+def getBestNewYorkTimesBook(username):
+    times_offset = userdata.getNum(username)
+    book_list = access.getNewYorkTimesList(times_offset)
+    viewed_isbns = userdata.getLikedBookList(username)
+    viewed_isbns.extend(userdata.getDislikedBookList(username))
+    for book_dict in book_list:
+        if book_dict['isbn'] not in viewed_isbns:
+            ret_book = book.Book()
+            fillFromAllSources(ret_book, book_dict['isbn'])
+            return ret_book
+    #Make sure this is consistent with userdata api
+    userdata.changeNum(username, 20)
+    return None
 
 #Fills book with data pulled from all sources
 def fillFromAllSources(mod_book, isbn):
