@@ -19,7 +19,7 @@ def getRelatedBook(search_term, type, username):
         for identifier in book_dict['industryIdentifiers']:
             if identifier['type'] == 'ISBN_10':
                 isbn = identifier['identifier']
-        if isbn != '' and isbn not in viewed_isbns:
+        if isbn != '' and (isbn not in viewed_isbns):
             ret_book = book.Book()
             ret_book.fill_google_books(book_dict)
             ret_book.fill_open_library(ret_book.isbn)
