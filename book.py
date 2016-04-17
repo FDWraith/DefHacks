@@ -99,7 +99,7 @@ class Book:
             elif 'medium' in google_info['imageLinks']:
                 self.cover_image = google_info['imageLinks']['medium']
 
-    def getAsJSON(self):
+    def getAsDict(self):
         dataDict = {}
         dataDict['title'] = self.title
         dataDict['author'] = self.author
@@ -118,25 +118,23 @@ class Book:
         dataDict['google_cats'] = self.google_cats
         dataDict['google_rating'] = self.google_rating
         dataDict['language'] = self.language
-        return json.dumps(dataDict)
+        return dataDict
 
-    def fillFromJSON(self, jsonObj):
-        jsonDict = json.load(jsonObj)
-        self.title = jsonDict['title']
-        self.author = jsonDict['author']
-        self.publish_date = jsonDict['publish_data']
-        self.page_count = jsonDict['page_count']
-        self.cover_image = jsonDict['cover_image']
-        self.isbn = jsonDict['isbn']
-        self.open_url = jsonDict['open_url']
-        self.subjects = jsonDict['subjects']
-        self.notes = jsonDict['notes']
-        self.times_desc = jsonDict['times_desc']
-        self.amazon_url = jsonDict['amazon_url']
-        self.google_id = jsonDict['google_id']
-        self.google_desc = jsonDict['google_desc']
-        self.main_category =jsonDict['main_category']
-        self.google_cats =  jsonDict['google_cats']
-        self.google_rating = jsonDict['google_rating']
-        self.language = jsonDict['language']
-        
+    def fillFromDict(self, bookDict):
+        self.title = bookDict['title']
+        self.author = bookDict['author']
+        self.publish_date = bookDict['publish_data']
+        self.page_count = bookDict['page_count']
+        self.cover_image = bookDict['cover_image']
+        self.isbn = bookDict['isbn']
+        self.open_url = bookDict['open_url']
+        self.subjects = bookDict['subjects']
+        self.notes = bookDict['notes']
+        self.times_desc = bookDict['times_desc']
+        self.amazon_url = bookDict['amazon_url']
+        self.google_id = bookDict['google_id']
+        self.google_desc = bookDict['google_desc']
+        self.main_category =bookDict['main_category']
+        self.google_cats =  bookDict['google_cats']
+        self.google_rating = bookDict['google_rating']
+        self.language = bookDict['language']
