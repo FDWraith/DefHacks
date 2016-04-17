@@ -84,8 +84,7 @@ def display():
         end += "<tr><td><h3>Author: "+currentBook.author+"</h3></td><tr>\n";
     end += "<tr><td><input class='btn btn-default' name='mode' type='submit' value ='left'</td>\n"
     if currentBook.cover_image:
-        end += "<td><img src='"+currentBook.cover_image+"'></td>\n";
-    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='right'</td></tr>\n"    
+        end += "<tr><td><img src='"+currentBook.cover_image+"'></td></tr>\n"    
     end += "<tr><td><h4>Basic Information:</h4></td></tr>\n";
     end += "<tr><td><ul>\n"
     if currentBook.main_category:
@@ -109,7 +108,9 @@ def display():
     if genres != '':
         end += "<li>Categories: "+genres+"</li>\n";
     end += "</ul></td></tr>\n";
-
+    end += "<tr><td><input class='btn btn-default' name='mode' type='submit' value ='left'</td>"
+    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='left'</td>"
+    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='right'</td></tr>\n"
     #Algos
     if p.qsize() < 10:
         addRandomBooks()
