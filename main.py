@@ -30,12 +30,11 @@ def toISBN(b):
 
 def initialize(p,username):
     addRandomBooks(p,username);
-    userdata.setP(username, pToLoL(p))
         
 def swipeLeft(username, currentBook):
     isbn = currentBook.isbn;
-    if isbn not in bookStorage.getJson():
-        bookStorage.add(isbn, currentBook);
+    #if isbn not in bookStorage.getJson():
+    #    bookStorage.add(isbn, currentBook);
     userdata.addDislikedBook(username,isbn);
     for genre in currentBook.subjects:
         tempTagDict = userdata.getTagDict(username);
@@ -46,8 +45,8 @@ def swipeLeft(username, currentBook):
 
 def swipeRight(username, currentBook):
     isbn = currentBook.isbn;
-    if isbn not in bookStorage.getJson():
-        bookStorage.add(isbn, currentBook);
+    #if isbn not in bookStorage.getJson():
+    #   bookStorage.add(isbn, currentBook);
     userdata.addLikedBook(username,isbn);
     for genre in currentBook.subjects:
         tempTagDict = userdata.getTagDict(username);
@@ -58,31 +57,17 @@ def swipeRight(username, currentBook):
  
 def saveBook(username, currentBook, p):
     isbn = currentBook.isbn;
-    
-    if isbn not in bookStorage.getJson():
-        bookStorage.add(isbn,currentBook);
-
+    #if isbn not in bookStorage.getJson():
+    #    bookStorage.add(isbn,currentBook);
     userdata.addSavedBook(username,isbn);
-        
     for genre in isbn.subjects:
         temp = userdata.getTagDict(username);
         if genre in temp:
-            userdata.addTag(username,genre,temp[genre][0]-3);
+            userdata.addTag(username,genre,temp[genre][0]-1);
         else:
-            userdata.addTag(username,genre,-3);
-
-    temp = userdata.getTagDict(username);
-    """
-    for genre in temp:
-        if temp[genre] >= 5:
-            searchResults = search.search(genre);#seach returns a list of books of the genre param.
-            for i in range(5):
-                p.put( [ temp[genre]+3, searchResults[i] ] )
-            userdata.addTag(username,genre,temp[genre][0]+3);
-            """
+            userdata.addTag(username,genre,-1);
 
 def updateBookQueue(username, book_queue):
-    ranked_tags = userdata.getTagDict()
     if book_queue.qsize() < 10:
         #ASSUME TYPE OPEN
         popTag = userdata.getPopularTag(username)
@@ -113,16 +98,12 @@ def addRandomBooks(p,username):
 
         
 counter = 0;            
-def display(username,p):
-
-    #if(p.qsize() == 0):
-    #    return ''
-    currentBook = p.get()[1]
-    userdata.changeCurrentBook(username,currentBook);
+def display(username,bookToDisplay):
+    currentBook = bookToDisplay
     end = "";
     end += "<table>\n";
     if currentBook.title:
-        end += "<tr><td><h1>Title: "+currentBook.title+"</h1></td></tr>\n";
+        end += "<tr><td><h1>Title: "+str(currentBook.title)+"</h1></td></tr>\n";
     if currentBook.author:
         end += "<tr><td><h3>Author: "+currentBook.author+"</h3></td><tr>\n";
     if currentBook.cover_image:
@@ -150,9 +131,11 @@ def display(username,p):
     if genres != '':
         end += "<li>Categories: "+genres+"</li>\n";
     end += "</ul></td></tr>\n";
-    end += "<tr><td><input class='btn btn-default' name='mode' type='submit' value ='left'</td>"
-    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='submit'</td>"
-    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='right'</td></tr>\n"
+    end += '<form action="" method="post">'
+    end += "<tr><td><input class='btn btn-default' name='mode' type='submit' value ='left'></td>"
+    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='submit'></td>"
+    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='right'></td></tr>\n"
+    end += '</form>'
     #Algos
     #if p.qsize() < 10:
     #    addRandomBooks(p,username)

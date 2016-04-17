@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash, g
 from functools import wraps
-import md5, string, sqlite3, json, os, main, userdata, Queue
+import md5, string, sqlite3, json, os, main, userdata, Queue, book
 
 app = Flask(__name__)
 
@@ -34,27 +34,31 @@ def login_required(f):
     return wrap
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 @login_required
 def home():
     username = session['username']
     p = main.LoLToP(session['queue'])
-    if(userdata.getP(username) == []):
-        main.addRandomBooks(p,username);
-        display = main.display(username,p)
-    else:
-        if(session['justlogin']):
-            session['justlogin'] = False
-            display = main.display(username, p)
+    if(session['justlogin']):
+        session['justlogin'] = False
+        currentBook = p.get()[1]
+        session['currentBook'] = currentBook.getAsDict()
+        display = main.display(username, currentBook)
+    elif request.method == 'POST':
+        currentBook = book.Book()
+        currentBook.fillFromDict(session['currentBook'])
+        if request.form['mode'] == 'right':
+            main.swipeRight(username, currentBook)
+            main.updateBookQueue(username, p)
+        elif request.form['mode'] == 'left':
+            main.swipeLeft(username, currentBook)
+            main.updateBookQueue(username, p)
         else:
-            currentBook = userdata.getCurrentBook(username)
-            if request.form['mode'] == 'right':
-                main.swipeRight(username, currentBook)
-            elif request.form['mode'] == 'left':
-                main.swipeLeft(username, currentBook)
-            else:
-                main.saveBook(username, currentBook, p)
-            display = main.display(username, p)
+            main.saveBook(username, currentBook, p)
+            main.updateBookQueue(username, p)
+        currentBook = p.get()[1]
+        session['currentBook'] = currentBook.getAsDict()
+        display = main.display(username, currentBook)
     return render_template("index.html", display=display)
 
 
