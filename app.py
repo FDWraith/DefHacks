@@ -99,7 +99,7 @@ def login():
     error = None
     if request.method == 'POST':
         Username = request.form['username']
-        Pass = request.form['password']
+        Pass = str(request.form['password'])
         g.db = connect_db()
         c1 = g.db.execute("SELECT pass FROM posts WHERE username ='%s'" %Username)
         c2 = g.db.execute("SELECT * FROM posts WHERE username ='%s'" %Username)
