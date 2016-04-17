@@ -64,7 +64,7 @@ def register():
             g.db.commit()
             flash('Account Registered')
             g.db.close()
-            a_dict = {Username: {"savedBook": [], "likedBooks": [], "dislikedBooks": [], "tagRanks": {}}}
+            a_dict = {Username: {"savedBooks": [], "likedBooks": [], "dislikedBooks": [], "tagRanks": {}}}
             with open('userdata.json') as f:
                 data = json.load(f)
             data.update(a_dict)
