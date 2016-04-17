@@ -38,7 +38,7 @@ def login_required(f):
 @login_required
 def home():
     username = session['username']
-    p = session['queue']
+    p = main.LoLToP(session['queue'])
     if(userdata.getCurrentBook(username) == {}):
         display = main.display(username, p)
     else:
@@ -112,10 +112,10 @@ def login():
             if userdata.getP(Username) == []:
                 p = Queue.PriorityQueue()
                 main.initialize(p, Username)
-                session["queue"] = p
+                session["queue"] = main.pToLoL(p);
             else:
                 p = main.LoLToP(userdata.getP(Username))
-                session["queue"] = p
+                session["queue"] = main.pToLoL(p);
             flash('You were logged in')
             session["justlogin"] = True
             return redirect(url_for('home'))
