@@ -110,7 +110,7 @@ def login():
             error = passpull[0] + " : " + hashpass(Pass)
         else:
             session['username'] = str(Username)
-            if userdata.getP(str(Username)) == []:
+            if userdata.getP(Username) == []:
                 p = Queue.PriorityQueue()
                 main.initialize(p, Username)
                 session["queue"] = main.pToLoL(p);
