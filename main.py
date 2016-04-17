@@ -86,28 +86,33 @@ def display():
         end += "<img src='"+currentBook.cover_image+"'>\n";
     end += "<tr><td><h4>Basic Information:</h4></td></tr>\n";
     end += "<tr><td><ul>\n"
-    if currentBook.isbn:
-        end += "<li>ISBN:"+currentBook.isbn+"</li>\n";
+    if currentBook.main_category:
+        end += "<li>Main Category: "+currentBook.main_category+"</li>\n";
+    if currentBook.times_desc:
+        end += "<li>Description: "+currentBook.times_desc+"</li>\n"; 
+    if currentBook.google_desc:
+        end += "<li>More: "+currentBook.google_desc+"</li>\n";
     if currentBook.page_count:
-        end += "<li>Page Count"+currentBook.page_count+"</li>\n";
-    if currentBook.page_count:
-        end += "<li>"+currentBook.page_count+"</li>\n";
-    if currentBook.page_count:
-        end += "<li>"+currentBook.page_count+"</li>\n";
-    if currentBook.page_count:
-        end += "<li>"+currentBook.page_count+"</li>\n";
-    if currentBook.page_count:
-        end += "<li>"+currentBook.page_count+"</li>\n";
-    if currentBook.page_count:
-        end += "<li>"+currentBook.page_count+"</li>\n";
-    if currentBook.page_count:
-        end += "<li>"+currentBook.page_count+"</li>\n";
-    if currentBook.page_count:
-        end += "<li>"+currentBook.page_count+"</li>\n";
-    if currentBook.page_count:
-        end += "<li>"+currentBook.page_count+"</li>\n";
-    if currentBook.page_count:
-        end += "<li>"+currentBook.page_count+"</li>\n";
-    if currentBook.page_count:
-        end += "<li>"+currentBook.page_count+"</li>\n";
+        end += "<li>Page Count: "+currentBook.page_count+"</li>\n";    
+    if currentBook.language:
+        end += "<li>Language: "+currentBook.language+"</li>\n";
+    genres = '';
+    if currentBook.subjects:
+        for i in currentBook.subjects:
+            genres += i +",";
+    if currentBook.google_cats:
+        for i in currentBook.subects:
+            genres += i +",";
+    genres= genres[:-1];
+    if genres != '':
+        end += "<li>Categories: "+genres+"</li>\n";
+    end += "</ul></td></tr>\n";
+
+    //Algos
+    if p.qsize() < 10:
+        addRandomBooks()
+    #if counter >= 5:
+    #updatePriorityQueue()
+        
+    return end;
         
