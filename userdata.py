@@ -1,4 +1,4 @@
-import json, time
+import json, time, main
 
 #Entry format for SavedBook, LikedBook, DislikedBook lists:
 #[[isbn, date], [isbn2, date2], ...]
@@ -64,11 +64,13 @@ def getPopularTag(username):
 
 
 def getCurrentBook(username):
-    return main.toBook(data[username]['currentBook'])
+    retBook = book.Book()
+    retBook.fillFromJSON(data[username]['currentBook'])
+    return retBook;
 
 
 def changeCurrentBook(username, book):
-    data[username]['currentBook'] = main.toISBN(book);
+    data[username]['currentBook'] = book.getAsJSON();
     with open('userdata.json', 'w') as f:
         json.dump(data, f)
 
