@@ -133,7 +133,7 @@ def display(username,bookToDisplay):
     end += "</ul></td></tr>\n";
     end += '<form action="" method="post">'
     end += "<tr><td><input class='btn btn-default' name='mode' type='submit' value ='left'></td>"
-    end += "<td><input class='btn btn-default' name='mode' type='submit' value ='save'></td>"
+    end += "<td><center><input class='btn btn-default' name='mode' type='submit' value ='save'><center></td>"
     end += "<td><input class='btn btn-default' name='mode' type='submit' value ='right'></td></tr>\n"
     end += '</form>'
     #Algos
