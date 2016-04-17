@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash, g
 from functools import wraps
 import flask.ext.login as flask_login
-import md5, string, sqlite3, json, os, main
+import md5, string, sqlite3, json, os, main, userdata, Queue
 
 app = Flask(__name__)
 
@@ -43,16 +43,24 @@ def login_required(f):
 @app.route('/')
 @login_required
 def home():
-    if main.getCurrentBook() == {}:
-        main.initialize()
-        return render_template("index.html")
+    username = session['username']
+    p = session['queue']
+    if(userdata.getCurrentBook(username) == {}):
+        display = main.display(username, p)
     else:
-        if(request.form('mode') == 'right'):
-            main.swipeRight(session['username'], main.getCurrentBook)
-        elif(request.form('mode') == 'left'):
-            main.swipeLeft(session['username'], main.getCurrentBook)
-        display = main.display()
-        return render_template("index.html", display=display)
+        if(session['justlogin']):
+            session['justlogin'] = False
+            display = main.display(username, p)
+        else:
+            currentBook = userdata.getCurrentBook(username)
+            if request.form['mode'] == 'right':
+                main.swipeRight(username, currentBook)
+            elif request.form['mode'] == 'left':
+                main.swipeLeft(username, currentBook)
+            else:
+                main.saveBook(username, currentBook)
+            display = main.display(username, p)
+    return render_template("index.html", display=display)
 
 
 @app.route('/welcome')
@@ -80,7 +88,7 @@ def register():
             g.db.commit()
             flash('Account Registered')
             g.db.close()
-            a_dict = {Username: {"savedBooks": [], "likedBooks": [], "dislikedBooks": [], "tagRanks": {}}}
+            a_dict = {Username: {"savedBooks": [], "likedBooks": [], "dislikedBooks": [], "tagRanks": {}, "currentBook": {}, 'num':0, "P":[]}}
             with open('userdata.json') as f:
                 data = json.load(f)
             data.update(a_dict)
@@ -107,7 +115,15 @@ def login():
             error = passpull[0] + " : " + hashpass(Pass)
         else:
             session['username'] = Username
+            if userdata.getP(Username) == []:
+                p = Queue.PriorityQueue()
+                main.initialize(p, Username)
+                session["queue"] = p
+            else:
+                p = main.LoLToP(userdata.getP())
+                session["queue"] = p
             flash('You were logged in')
+            session["justlogin"] = True
             return redirect(url_for('home'))
     return render_template('login.html', error=error)
 

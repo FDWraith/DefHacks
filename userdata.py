@@ -46,3 +46,27 @@ def addTag(username, key, value):
 
 def getTagList(username):
     return data[username]['tagRanks']
+
+
+def getCurrentBook(username):
+    return data[username]['currentBook']
+
+
+def changeCurrentBook(username, book):
+    data[username]['currentBook'] = book
+
+
+def getNum(username):
+    return data[username]['num']
+
+
+def changeNum(username, offset):
+    data[username]['num'] = data[username]['num'] + offset
+
+
+def getP(username):
+    return data[username]["P"]
+
+
+def setP(username, newP):
+    data[username]["P"] = newP

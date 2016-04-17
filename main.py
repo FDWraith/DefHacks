@@ -1,20 +1,25 @@
-import Queue,access,json,requests,userdata,bookStorage
+import Queue,access,json,requests,userdata,bookStorage,book
 
-p = Queue.PriorityQueue();
-num = 0;
-currentBook = {};
+def pToLoL(p):
+    L = [];
+    while(p.qsize() != 0):
+        L.append(p.get());
+    return L;
 
-def getCurrentBook():
-    return currentBook;
+def LoLToP(L):
+    p = Queue.PriorityQueue();
+    for i in L:
+        p.put(i);
+    return p;
 
-def initialize():
-    addRandomBooks();
+def initialize(p,username):
+    addRandomBooks(p,username);
         
-def swipeLeft(username):
+def swipeLeft(username, currentBook):
     isbn = currentBook.isbn;
 
     if isbn not in bookStorage.get():
-        bookStorage.add(isbn,currentBook);
+        bookStorage.add(isbn, currentBook);
         
     userdata.addDislikedBook(username,isbn);
     for genre in isbn.subjects:
@@ -24,7 +29,7 @@ def swipeLeft(username):
         else:
             userdata.addTag(username,genre,1);
 
-def swipeRight(username):
+def swipeRight(username, currentBook):
     isbn = currentBook.isbn
 
     if isbn not in bookStorage.get():
@@ -38,7 +43,7 @@ def swipeRight(username):
         else:
             userdata.addTag(username,genre,-1);
  
-def saveBook(username):
+def saveBook(username, currentBook):
     isbn = currentBook.isbn;
     
     if isbn not in bookStorage.get():
@@ -61,20 +66,21 @@ def saveBook(username):
                 p.put( [ temp[genre]+3, searchResults[i] ] )
             userdata.addTag(username,genre,temp[genre][0]+3);
 
-def addRandomBooks():
-    list = access.getNewYorkTimesList('young-adult',num+'');
-    num+=20;
+def addRandomBooks(p,username):
+    list = access.getNewYorkTimesList('young-adult', str(userdata.getNum(username)) + '');
+    userdata.changeNum(username, 20)
     for i in list:
         b = Book();
         list.fill_ny_times(b,i);
         isbn = i['isbn'];
-        list.fill_open_library(b,access.getOpenLibraryBook(isbn+''));
+        list.fill_open_library(b,access.getOpenLibraryBook(str(isbn)+''));
         p.put([0,b]);        
 
         
 counter = 0;            
-def display():    
-    currentBook = p.get();
+def display(username,p):    
+    userdata.changeCurrentBook(username,p.get());
+    currentBook = userdata.getCurrentBook(username);
     end = "";
     end += "<table>\n";
     if currentBook.title:
@@ -112,9 +118,9 @@ def display():
     end += "<td><input class='btn btn-default' name='mode' type='submit' value ='right'</td></tr>\n"
     #Algos
     if p.qsize() < 10:
-        addRandomBooks()
+        addRandomBooks(p,username)
     #if counter >= 5:
     #updatePriorityQueue()
-        
+    
     return end;
         
