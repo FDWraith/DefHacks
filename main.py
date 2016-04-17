@@ -13,11 +13,9 @@ def pToLoL(p):
 def LoLToP(L):
     p = Queue.PriorityQueue();
     for i in L:
-        temp = tuple();
-        temp[0] = i[0];
         bk = book.Book()
         bk.fillFromDict(i[1]);
-        temp[1] = bk;
+        temp = (i[0], bk)
         p.put(temp);
     return p;
 
@@ -103,6 +101,7 @@ def updateBookQueue(username, book_queue):
 
 def addRandomBooks(p,username):
     list = access.getNewYorkTimesList('young-adult', str(userdata.getNum(username)) + '');
+    print(list)
     userdata.changeNum(username, 20)
     for i in list:
         b = book.Book();
@@ -118,7 +117,6 @@ def display(username,p):
     #if(p.qsize() == 0):
     #    return ''
     currentBook = p.get()[1]
-    exit(1)
     userdata.changeCurrentBook(username,currentBook);
     end = "";
     end += "<table>\n";
